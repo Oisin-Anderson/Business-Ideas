@@ -14,22 +14,7 @@ const SavedIdeasPage = () => {
   const [selectedInvestmentLevels, setSelectedInvestmentLevels] = useState([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState([]);
 
-  useEffect(() => {
-    if (user) {
-      fetchSavedIdeas();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    filterIdeas();
-  }, [savedIdeas, searchQuery, selectedCategories, selectedInvestmentLevels, selectedDifficulties]);
-
-  // Redirect if not logged in
-  if (!loading && !user) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  const fetchSavedIdeas = async () => {
+  const fetchSavedIdeas = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await axios.get('/api/saved-ideas');
@@ -39,7 +24,7 @@ const SavedIdeasPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const filterIdeas = useCallback(() => {
     let filtered = [...savedIdeas];
@@ -77,6 +62,21 @@ const SavedIdeasPage = () => {
 
     setFilteredIdeas(filtered);
   }, [savedIdeas, searchQuery, selectedCategories, selectedInvestmentLevels, selectedDifficulties]);
+
+  useEffect(() => {
+    if (user) {
+      fetchSavedIdeas();
+    }
+  }, [user, fetchSavedIdeas]);
+
+  useEffect(() => {
+    filterIdeas();
+  }, [filterIdeas]);
+
+  // Redirect if not logged in
+  if (!loading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
 
   const removeSavedIdea = async (ideaId) => {
     try {
