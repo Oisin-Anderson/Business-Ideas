@@ -8,12 +8,6 @@ const BookmarkButton = ({ ideaId }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      checkIfSaved();
-    }
-  }, [user, ideaId, checkIfSaved]);
-
   const checkIfSaved = useCallback(async () => {
     try {
       const response = await axios.get('/api/saved-ideas');
@@ -23,6 +17,12 @@ const BookmarkButton = ({ ideaId }) => {
       console.error('Error checking saved status:', error);
     }
   }, [ideaId]);
+
+  useEffect(() => {
+    if (user) {
+      checkIfSaved();
+    }
+  }, [user, ideaId, checkIfSaved]);
 
   const toggleSave = async () => {
     if (!user) return;

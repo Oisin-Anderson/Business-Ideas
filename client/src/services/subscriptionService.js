@@ -28,47 +28,42 @@ class SubscriptionService {
   }
 
   async getOfferings() {
-    try {
-      // Return subscription plans directly from Stripe
-      return {
-        current: {
-          availablePackages: [
-            {
-              identifier: 'premium_monthly',
-              product: {
-                title: 'Premium Monthly',
-                description: 'Monthly premium subscription',
-                price: 1199, // $11.99 in cents
-                currencyCode: 'USD'
-              }
-            },
-            {
-              identifier: 'premium_yearly',
-              product: {
-                title: 'Premium Yearly',
-                description: 'Yearly subscription (was $47.99, now 50% off!)',
-                price: 2399, // $23.99 in cents
-                currencyCode: 'USD',
-                wasPrice: 4799 // $47.99 in cents
-              }
-            },
-            {
-              identifier: 'premium_lifetime',
-              product: {
-                title: 'Premium Lifetime',
-                description: 'One-time payment for lifetime access (was $95.99, now 50% off!)',
-                price: 4799, // $47.99 in cents
-                currencyCode: 'USD',
-                wasPrice: 9599 // $95.99 in cents
-              }
+    // Return subscription plans directly from Stripe
+    return {
+      current: {
+        availablePackages: [
+          {
+            identifier: 'premium_monthly',
+            product: {
+              title: 'Premium Monthly',
+              description: 'Monthly premium subscription',
+              price: 1199, // $11.99 in cents
+              currencyCode: 'USD'
             }
-          ]
-        }
-      };
-    } catch (error) {
-      console.error('Failed to get offerings:', error);
-      throw error;
-    }
+          },
+          {
+            identifier: 'premium_yearly',
+            product: {
+              title: 'Premium Yearly',
+              description: 'Yearly subscription (was $47.99, now 50% off!)',
+              price: 2399, // $23.99 in cents
+              currencyCode: 'USD',
+              wasPrice: 4799 // $47.99 in cents
+            }
+          },
+          {
+            identifier: 'premium_lifetime',
+            product: {
+              title: 'Premium Lifetime',
+              description: 'One-time payment for lifetime access (was $95.99, now 50% off!)',
+              price: 4799, // $47.99 in cents
+              currencyCode: 'USD',
+              wasPrice: 9599 // $95.99 in cents
+            }
+          }
+        ]
+      }
+    };
   }
 
   async purchasePackage(packageInfo) {
