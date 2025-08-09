@@ -10,4 +10,11 @@ const config = {
   STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || 'your-stripe-publishable-key'
 };
 
+// Debug logging for production
+console.log('🔍 Frontend Configuration Debug:');
+console.log('   Environment:', process.env.NODE_ENV);
+console.log('   API_BASE_URL:', config.API_BASE_URL);
+console.log('   REACT_APP_API_URL env var:', process.env.REACT_APP_API_URL);
+console.log('   Expected Railway URL: https://business-ideas-production.up.railway.app');
+
 export default config;

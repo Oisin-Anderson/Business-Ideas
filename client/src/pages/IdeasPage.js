@@ -47,14 +47,26 @@ const IdeasPage = () => {
       });
       
       const response = await axios.get(`/api/ideas?${params}`);
-      setIdeas(response.data.ideas);
-      setPagination(prev => ({
-        ...prev,
-        totalPages: response.data.totalPages,
-        total: response.data.total
-      }));
+      console.log('✅ Ideas API Response:', response.data);
+      
+      // Ensure we have valid data
+      if (response.data && response.data.ideas && Array.isArray(response.data.ideas)) {
+        setIdeas(response.data.ideas);
+        setPagination(prev => ({
+          ...prev,
+          totalPages: response.data.totalPages || 1,
+          total: response.data.total || 0
+        }));
+      } else {
+        console.error('❌ Invalid API response structure:', response.data);
+        setIdeas([]); // Set to empty array as fallback
+      }
     } catch (error) {
-      console.error('Error fetching ideas:', error);
+      console.error('❌ Error fetching ideas:', error);
+      console.error('Request URL:', error.config?.url);
+      console.error('Response status:', error.response?.status);
+      console.error('Response data:', error.response?.data);
+      setIdeas([]); // Set to empty array on error
     } finally {
       setLoading(false);
     }
