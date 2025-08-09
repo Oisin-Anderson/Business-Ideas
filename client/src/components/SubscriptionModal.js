@@ -243,8 +243,7 @@ const PaymentForm = ({ selectedPlan, onSuccess, onClose, processing, setProcessi
 };
 
 const SubscriptionModal = ({ isOpen, onClose }) => {
-  const { subscriptionPlans, loading } = useSubscription();
-  const { user } = useAuth();
+  const { subscriptionPlans } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [processing, setProcessing] = useState(false);
 

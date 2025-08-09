@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Eye, EyeOff, Mail, Lock, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import GoogleSignIn from './GoogleSignIn';
 
 const Register = ({ onSwitchToLogin }) => {

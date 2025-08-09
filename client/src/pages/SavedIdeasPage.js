@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Bookmark, ArrowRight, Search, Filter } from 'lucide-react';
@@ -41,7 +41,7 @@ const SavedIdeasPage = () => {
     }
   };
 
-  const filterIdeas = () => {
+  const filterIdeas = useCallback(() => {
     let filtered = [...savedIdeas];
 
     // Search filter
@@ -76,7 +76,7 @@ const SavedIdeasPage = () => {
     }
 
     setFilteredIdeas(filtered);
-  };
+  }, [savedIdeas, searchQuery, selectedCategories, selectedInvestmentLevels, selectedDifficulties]);
 
   const removeSavedIdea = async (ideaId) => {
     try {

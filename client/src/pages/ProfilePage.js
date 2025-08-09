@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
   const { user, logout } = useAuth();
-  const { subscriptionStatus, subscriptionPlans, loading, restorePurchases, refreshSubscriptionStatus } = useSubscription();
+  const { subscriptionStatus, loading, restorePurchases, refreshSubscriptionStatus } = useSubscription();
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);

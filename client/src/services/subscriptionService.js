@@ -80,13 +80,13 @@ class SubscriptionService {
           priceId: this.getStripePriceId(packageInfo.identifier)
         });
         return response.data;
-      } else {
-        // Use Stripe for recurring subscription payment processing
-        const response = await axios.post('/api/create-subscription', {
-          priceId: this.getStripePriceId(packageInfo.identifier)
-        });
-        return response.data;
       }
+      
+      // Use Stripe for recurring subscription payment processing
+      const response = await axios.post('/api/create-subscription', {
+        priceId: this.getStripePriceId(packageInfo.identifier)
+      });
+      return response.data;
     } catch (error) {
       console.error('Failed to purchase package:', error);
       throw error;
@@ -189,4 +189,5 @@ class SubscriptionService {
   }
 }
 
-export default new SubscriptionService(); 
+const subscriptionServiceInstance = new SubscriptionService();
+export default subscriptionServiceInstance; 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Target, TrendingUp, Award, CheckCircle } from 'lucide-react';
+import { Users, Target, TrendingUp, Award } from 'lucide-react';
 
 const AboutPage = () => {
   const stats = [

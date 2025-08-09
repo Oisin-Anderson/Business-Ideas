@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Bookmark } from 'lucide-react';
 import axios from 'axios';
@@ -12,9 +12,9 @@ const BookmarkButton = ({ ideaId }) => {
     if (user) {
       checkIfSaved();
     }
-  }, [user, ideaId]);
+  }, [user, ideaId, checkIfSaved]);
 
-  const checkIfSaved = async () => {
+  const checkIfSaved = useCallback(async () => {
     try {
       const response = await axios.get('/api/saved-ideas');
       const savedIdeas = response.data.savedIdeas;
@@ -22,7 +22,7 @@ const BookmarkButton = ({ ideaId }) => {
     } catch (error) {
       console.error('Error checking saved status:', error);
     }
-  };
+  }, [ideaId]);
 
   const toggleSave = async () => {
     if (!user) return;
