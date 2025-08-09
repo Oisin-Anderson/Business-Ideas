@@ -912,11 +912,26 @@ app.post('/api/webhooks/stripe', express.raw({type: 'application/json'}), async 
   res.json({received: true});
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
+// Serve static files in production (but only for Railway backend - we're not serving frontend from here)
+// The frontend is deployed separately on Netlify, so we don't need this for Railway
+if (process.env.NODE_ENV === 'production' && process.env.SERVE_FRONTEND === 'true') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+} else {
+  // For Railway deployment: Only serve API, no frontend files
+  app.get('/', (req, res) => {
+    res.json({ 
+      message: 'Business Ideas API Server', 
+      status: 'running',
+      endpoints: {
+        ideas: '/api/ideas',
+        categories: '/api/categories',
+        stats: '/api/stats',
+        auth: '/api/auth/*'
+      }
+    });
   });
 }
 
