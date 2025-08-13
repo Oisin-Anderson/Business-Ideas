@@ -36,6 +36,7 @@ const corsOptions = {
     ? [
         /^https:\/\/.*\.netlify\.app$/, // Allow any Netlify domain
         /^https:\/\/.*\.netlify\.com$/, // Allow any Netlify domain
+        'https://businessbreakdowns.online', // Your custom domain
         'https://your-custom-domain.com' // Add your custom domain if you have one
       ]
     : true, // Allow all origins in development
