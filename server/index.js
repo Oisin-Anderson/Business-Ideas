@@ -35,12 +35,26 @@ const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
         /^https:\/\/.*\.netlify\.app$/, // Allow any Netlify domain
+        /^https:\/\/.*\.netlify\.com$/, // Allow any Netlify domain
         'https://your-custom-domain.com' // Add your custom domain if you have one
       ]
     : true, // Allow all origins in development
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
+
+// CORS debugging middleware
+app.use((req, res, next) => {
+  console.log('🌐 CORS Debug:', {
+    method: req.method,
+    origin: req.headers.origin,
+    url: req.url,
+    userAgent: req.headers['user-agent']
+  });
+  next();
+});
 
 app.use(cors(corsOptions));
 app.use(morgan('combined'));
