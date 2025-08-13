@@ -276,7 +276,15 @@ async function isIdeaSaved(userId, ideaId) {
 }
 
 // Initialize database on module load
-initializeDatabase().catch(console.error);
+initializeDatabase().catch((error) => {
+  console.error('❌ Failed to initialize database:', error);
+  console.error('Error details:', {
+    message: error.message,
+    code: error.code,
+    detail: error.detail,
+    hint: error.hint
+  });
+});
 
 module.exports = {
   addUser,

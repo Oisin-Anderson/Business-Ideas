@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, DollarSign, TrendingUp, Target, CheckCircle, XCircle, Lock } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 import ReactMarkdown from 'react-markdown';
 import BookmarkButton from '../components/BookmarkButton';
 import { useAuth } from '../contexts/AuthContext';
@@ -16,7 +16,7 @@ const IdeaDetailPage = () => {
   const fetchIdea = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/api/ideas/${id}`);
+      const response = await api.get(`/api/ideas/${id}`);
       setIdea(response.data);
     } catch (error) {
       setError('Business idea not found');

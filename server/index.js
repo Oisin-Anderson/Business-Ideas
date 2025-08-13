@@ -34,7 +34,7 @@ app.use(helmet());
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https://your-netlify-domain.netlify.app',
+        /^https:\/\/.*\.netlify\.app$/, // Allow any Netlify domain
         'https://your-custom-domain.com' // Add your custom domain if you have one
       ]
     : true, // Allow all origins in development
@@ -102,6 +102,12 @@ app.post('/api/auth/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      hint: error.hint
+    });
     res.status(500).json({ message: 'Server error during registration' });
   }
 });

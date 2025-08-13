@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Search, Filter, Grid, List, ChevronLeft, ChevronRight, X, Lock } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 import BookmarkButton from '../components/BookmarkButton';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -27,7 +27,7 @@ const IdeasPage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/api/categories');
+      const response = await api.get('/api/categories');
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -46,7 +46,7 @@ const IdeasPage = () => {
         difficulties: filters.difficulties.join(',')
       });
       
-      const response = await axios.get(`/api/ideas?${params}`);
+      const response = await api.get(`/api/ideas?${params}`);
       console.log('✅ Ideas API Response:', response.data);
       
       // Ensure we have valid data

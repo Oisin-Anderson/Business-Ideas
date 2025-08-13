@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Bookmark } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 
 const BookmarkButton = ({ ideaId }) => {
   const { user } = useAuth();
@@ -10,7 +10,7 @@ const BookmarkButton = ({ ideaId }) => {
 
   const checkIfSaved = useCallback(async () => {
     try {
-      const response = await axios.get('/api/saved-ideas');
+      const response = await api.get('/api/saved-ideas');
       const savedIdeas = response.data.savedIdeas;
       setIsSaved(savedIdeas.some(idea => idea.id === ideaId));
     } catch (error) {
@@ -30,10 +30,10 @@ const BookmarkButton = ({ ideaId }) => {
     setIsLoading(true);
     try {
       if (isSaved) {
-        await axios.delete(`/api/saved-ideas/${ideaId}`);
+        await api.delete(`/api/saved-ideas/${ideaId}`);
         setIsSaved(false);
       } else {
-        await axios.post('/api/saved-ideas', { ideaId });
+        await api.post('/api/saved-ideas', { ideaId });
         setIsSaved(true);
       }
     } catch (error) {

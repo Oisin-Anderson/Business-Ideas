@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Bookmark, ArrowRight, Search, Filter } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 
 const SavedIdeasPage = () => {
   const { user, loading } = useAuth();
@@ -17,7 +17,7 @@ const SavedIdeasPage = () => {
   const fetchSavedIdeas = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('/api/saved-ideas');
+      const response = await api.get('/api/saved-ideas');
       setSavedIdeas(response.data.savedIdeas);
     } catch (error) {
       console.error('Error fetching saved ideas:', error);
@@ -80,7 +80,7 @@ const SavedIdeasPage = () => {
 
   const removeSavedIdea = async (ideaId) => {
     try {
-      await axios.delete(`/api/saved-ideas/${ideaId}`);
+      await api.delete(`/api/saved-ideas/${ideaId}`);
       setSavedIdeas(prev => prev.filter(idea => idea.id !== ideaId));
     } catch (error) {
       console.error('Error removing saved idea:', error);

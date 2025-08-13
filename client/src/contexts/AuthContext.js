@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const AuthContext = createContext();
 
@@ -20,9 +20,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // Set default authorization header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
       // Verify token with server
       checkAuthStatus();
     } else {
@@ -32,12 +29,11 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get('/api/auth/me');
+      const response = await api.get('/api/auth/me');
       setUser(response.data.user);
     } catch (error) {
       // Token is invalid, remove it
       localStorage.removeItem('token');
-      delete axios.defaults.headers.common['Authorization'];
     } finally {
       setLoading(false);
     }
@@ -46,13 +42,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await api.post('/api/auth/login', { email, password });
       
       const { token, user } = response.data;
       
       // Store token
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
       setUser(user);
       return { success: true };
@@ -66,13 +61,12 @@ export const AuthProvider = ({ children }) => {
   const register = async (email, password) => {
     try {
       setError(null);
-      const response = await axios.post('/api/auth/register', { email, password });
+      const response = await api.post('/api/auth/register', { email, password });
       
       const { token, user } = response.data;
       
       // Store token
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
       setUser(user);
       return { success: true };
@@ -86,13 +80,12 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async (token) => {
     try {
       setError(null);
-      const response = await axios.post('/api/auth/google', { token });
+      const response = await api.post('/api/auth/google', { token });
       
       const { token: jwtToken, user } = response.data;
       
       // Store token
       localStorage.setItem('token', jwtToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
       
       setUser(user);
       return { success: true };
@@ -105,7 +98,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
     setUser(null);
     setError(null);
   };

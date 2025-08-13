@@ -1,7 +1,10 @@
 // API Configuration
 const config = {
-  // Use environment variable if available, otherwise default to localhost for development
-  API_BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+  // Use environment variable if available, otherwise use Railway URL for production or localhost for development
+  API_BASE_URL: process.env.REACT_APP_API_URL || 
+    (process.env.NODE_ENV === 'production' 
+      ? 'https://business-ideas-production.up.railway.app' 
+      : 'http://localhost:5000'),
   
   // Google OAuth
   GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'your-google-client-id',

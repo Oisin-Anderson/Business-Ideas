@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 class SubscriptionService {
   constructor() {
@@ -19,7 +19,7 @@ class SubscriptionService {
 
   async getCustomerInfo() {
     try {
-      const response = await axios.get('/api/subscription-status');
+      const response = await api.get('/api/subscription-status');
       return response.data;
     } catch (error) {
       console.error('Failed to get customer info:', error);
@@ -71,14 +71,14 @@ class SubscriptionService {
       // Check if this is a lifetime subscription
       if (packageInfo.identifier === 'premium_lifetime') {
         // For lifetime, create a one-time payment instead of subscription
-        const response = await axios.post('/api/create-lifetime-payment', {
+        const response = await api.post('/api/create-lifetime-payment', {
           priceId: this.getStripePriceId(packageInfo.identifier)
         });
         return response.data;
       }
       
       // Use Stripe for recurring subscription payment processing
-      const response = await axios.post('/api/create-subscription', {
+      const response = await api.post('/api/create-subscription', {
         priceId: this.getStripePriceId(packageInfo.identifier)
       });
       return response.data;
@@ -90,7 +90,7 @@ class SubscriptionService {
 
   async restorePurchases() {
     try {
-      const response = await axios.get('/api/subscription-status');
+      const response = await api.get('/api/subscription-status');
       return response.data;
     } catch (error) {
       console.error('Failed to restore purchases:', error);
@@ -175,7 +175,7 @@ class SubscriptionService {
 
   async cancelSubscription() {
     try {
-      const response = await axios.post('/api/cancel-subscription');
+      const response = await api.post('/api/cancel-subscription');
       return response.data;
     } catch (error) {
       console.error('Failed to cancel subscription:', error);
