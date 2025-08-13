@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import api from '../services/api';
 import config from '../config';
 
@@ -31,7 +31,7 @@ const TestPage = () => {
 
     // Test 3: Test registration endpoint
     try {
-      const response = await api.post('/api/auth/register', {
+      await api.post('/api/auth/register', {
         email: 'test@example.com',
         password: 'testpassword123'
       });
